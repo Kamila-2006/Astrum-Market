@@ -56,12 +56,20 @@ def product_by_category(request):
     category_id = request.GET.get('category')
     brand_id = request.GET.get('brand')
     color_id = request.GET.get('color')
+    min_price = request.GET.get('min-price')
+    max_price = request.GET.get('max-price')
     if category_id:
         products = products.filter(category__id=category_id)
     if brand_id:
         products = products.filter(brand__id=brand_id)
     if color_id:
         products = products.filter(color__id=color_id)
+    if min_price and max_price:
+        products = products.filter(price__range=(min_price, max_price))
+    elif min_price:
+        products = products.filter(price__gte=min_price)
+    elif max_price:
+        products = products.filter(price__lte=max_price)
     ctx = {
         'products':products,
         'catalogs':catalogs,
