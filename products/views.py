@@ -7,11 +7,7 @@ from colors.models import Color
 
 def home(request):
     products = Product.objects.all()
-    catalogs = Category.objects.all()
-    category_id = request.GET.get('category')
-    if category_id:
-        products = products.filter(category__id=category_id)
-    ctx = {'products':products, 'catalogs':catalogs}
+    ctx = {'products':products}
     return render(request, 'index.html', ctx)
 
 def create_product(request):
@@ -72,4 +68,4 @@ def product_by_category(request):
         'brands':brands,
         'colors':colors
     }
-    return render(request, 'product-by-category.html', ctx)
+    return render(request, 'products/product-by-category.html', ctx)
